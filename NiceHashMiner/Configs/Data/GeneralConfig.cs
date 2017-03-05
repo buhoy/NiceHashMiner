@@ -53,6 +53,7 @@ namespace NiceHashMiner.Configs.Data {
         public DagGenerationType EthminerDagGenerationType = DagGenerationType.SingleKeep;
         public int ApiBindPortPoolStart = 5100;
         public double MinimumProfit = 0;
+        public double MinimumCPUProfit = 0;
         //public bool ContinueMiningIfNoInternetAccess = false;
         public bool IdleWhenNoInternetAccess = true;
         public bool DownloadInit = false;
@@ -102,6 +103,7 @@ namespace NiceHashMiner.Configs.Data {
             DisplayCurrency = "USD";
             ApiBindPortPoolStart = 4000;
             MinimumProfit = 0;
+            MinimumCPUProfit = 0;
             EthminerDagGenerationType = DagGenerationType.SingleKeep;
             DownloadInit = false;
             //ContinueMiningIfNoInternetAccess = false;
