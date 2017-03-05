@@ -119,6 +119,7 @@ namespace NiceHashMiner.Forms {
             toolTip1.SetToolTip(this.label_MinProfit, International.GetText("Form_Settings_ToolTip_MinimumProfit"));
             toolTip1.SetToolTip(this.pictureBox_MinProfit, International.GetText("Form_Settings_ToolTip_MinimumProfit"));
             toolTip1.SetToolTip(this.textBox_MinProfit, International.GetText("Form_Settings_ToolTip_MinimumProfit"));
+            toolTip1.SetToolTip(this.textBox_MinCPUProfit, International.GetText("Form_Settinggs_ToolTip_MinimumCPUProfit"));
 
             toolTip1.SetToolTip(this.textBox_SwitchMinSecondsDynamic, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsDynamic"));
             toolTip1.SetToolTip(this.label_SwitchMinSecondsDynamic, International.GetText("Form_Settings_ToolTip_SwitchMinSecondsDynamic"));
@@ -263,6 +264,7 @@ namespace NiceHashMiner.Forms {
             label_APIBindPortStart.Text = International.GetText("Form_Settings_APIBindPortStart") + ":";
 
             label_MinProfit.Text = International.GetText("Form_Settings_General_MinimumProfit") + ":";
+            label_MinCPUProfit.Text = International.GetText("Form_Settings_General_MinimumProfit") + ":";
 
             label_displayCurrency.Text = International.GetText("Form_Settings_DisplayCurrency");
 
@@ -336,6 +338,7 @@ namespace NiceHashMiner.Forms {
                 this.textBox_ethminerDefaultBlockHeight.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
                 this.textBox_APIBindPortStart.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
                 this.textBox_MinProfit.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
+                this.textBox_MinCPUProfit.Leave += new System.EventHandler(this.GeneralTextBoxes_Leave);
                 // set int only keypress
                 this.textBox_SwitchMinSecondsFixed.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
                 this.textBox_SwitchMinSecondsDynamic.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
@@ -348,6 +351,7 @@ namespace NiceHashMiner.Forms {
                 this.textBox_APIBindPortStart.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxIntsOnly_KeyPress);
                 // set double only keypress
                 this.textBox_MinProfit.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxDoubleOnly_KeyPress);
+                this.textBox_MinCPUProfit.KeyPress += new KeyPressEventHandler(TextBoxKeyPressEvents.textBoxDoubleOnly_KeyPress);
             }
             // Add EventHandler for all the general tab's textboxes
             {
@@ -404,6 +408,7 @@ namespace NiceHashMiner.Forms {
                 textBox_ethminerDefaultBlockHeight.Text = ConfigManager.GeneralConfig.ethminerDefaultBlockHeight.ToString();
                 textBox_APIBindPortStart.Text = ConfigManager.GeneralConfig.ApiBindPortPoolStart.ToString();
                 textBox_MinProfit.Text = ConfigManager.GeneralConfig.MinimumProfit.ToString("F2").Replace(',', '.'); // force comma;
+                textBox_MinCPUProfit.Text = ConfigManager.GeneralConfig.MinimumCPUProfit.ToString("F2").Replace(',', '.');
                 textBox_SwitchProfitabilityThreshold.Text = ConfigManager.GeneralConfig.SwitchProfitabilityThreshold.ToString("F2").Replace(',', '.'); // force comma;
             }
 
@@ -553,12 +558,14 @@ namespace NiceHashMiner.Forms {
             ConfigManager.GeneralConfig.ApiBindPortPoolStart = Helpers.ParseInt(textBox_APIBindPortStart.Text);
             // min profit
             ConfigManager.GeneralConfig.MinimumProfit = Helpers.ParseDouble(textBox_MinProfit.Text);
+            ConfigManager.GeneralConfig.MinimumCPUProfit = Helpers.ParseDouble(textBox_MinCPUProfit.Text);
             ConfigManager.GeneralConfig.SwitchProfitabilityThreshold = Helpers.ParseDouble(textBox_SwitchProfitabilityThreshold.Text);
 
             // Fix bounds
             ConfigManager.GeneralConfig.FixSettingBounds();
             // update strings
             textBox_MinProfit.Text = ConfigManager.GeneralConfig.MinimumProfit.ToString("F2").Replace(',', '.'); // force comma
+            textBox_MinCPUProfit.Text = ConfigManager.GeneralConfig.MinimumCPUProfit.ToString("F2").Replace(',', '.');
             textBox_SwitchProfitabilityThreshold.Text = ConfigManager.GeneralConfig.SwitchProfitabilityThreshold.ToString("F2").Replace(',', '.'); // force comma
             textBox_SwitchMinSecondsFixed.Text = ConfigManager.GeneralConfig.SwitchMinSecondsFixed.ToString();
             textBox_SwitchMinSecondsDynamic.Text = ConfigManager.GeneralConfig.SwitchMinSecondsDynamic.ToString();
