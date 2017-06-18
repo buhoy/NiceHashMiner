@@ -20,6 +20,35 @@ namespace NiceHashMiner
         public string name;
         public int algo;
         public double paying;
+        public string host;
+    }
+
+    public class MPHSMA
+    {
+        public string algo;
+        public string current_mining_coin;
+        public string host;
+        public string all_host_list;
+        public int port;
+        public int algo_switch_port;
+        public int multialgo_switch_port;
+        public double profit;
+
+        public AlgorithmType GetAlgoType() {
+            if (algo == "Lyra2z") {
+                return AlgorithmType.Lyra2RE;
+            }
+            if (algo == "Ethash") {
+                return AlgorithmType.DaggerHashimoto;
+            }
+            if (algo == "Lyra2RE2") {
+                return AlgorithmType.Lyra2REv2;
+            }
+            if (Enum.IsDefined(typeof(AlgorithmType), algo)) {
+                return (AlgorithmType)Enum.Parse(typeof(AlgorithmType), algo);
+            }
+            return AlgorithmType.NONE;
+        }
     }
 #pragma warning restore 649
 
@@ -57,6 +86,12 @@ namespace NiceHashMiner
             public string method;
         }
 
+        public class mph_json
+        {
+            public string success;
+            public MPHSMA[] result;
+        }
+
         class nicehash_result<T>
         {
             public T[] stats;
@@ -85,15 +120,23 @@ namespace NiceHashMiner
         }
 #pragma warning restore 649
 
-
-        public static Dictionary<AlgorithmType, NiceHashSMA> GetAlgorithmRates(string worker)
-        {
+        public static Dictionary<AlgorithmType, NiceHashSMA> GetAlgorithmRates(string worker) {
+            if (worker.Length > 20) {
+                
+            }
+            var nhdata = GetNHMAlgorithmRates(worker);
+            var mphdata = GetMPHAlgorithmRates(worker);
+            foreach (var data in mphdata.Keys) {
+                nhdata[data] = mphdata[data];
+            }
+            return nhdata;
+        }
+        public static Dictionary<AlgorithmType, NiceHashSMA> GetNHMAlgorithmRates(string worker) {
             string r1 = GetNiceHashAPIData(Links.NHM_API_info, worker);
             if (r1 == null) return null;
 
             nicehash_json_2 nhjson_current;
-            try
-            {
+            try {
                 nhjson_current = JsonConvert.DeserializeObject<nicehash_json_2>(r1, Globals.JsonSettings);
                 Dictionary<AlgorithmType, NiceHashSMA> ret = new Dictionary<AlgorithmType, NiceHashSMA>();
                 NiceHashSMA[] temp = nhjson_current.result.simplemultialgo;
@@ -104,9 +147,39 @@ namespace NiceHashMiner
                     return ret;
                 }
                 return null;
+            } catch {
+                return null;
             }
-            catch
-            {
+        }
+
+        public static Dictionary<AlgorithmType, NiceHashSMA> GetMPHAlgorithmRates(string worker) {
+            string url = "https://miningpoolhub.com/index.php?page=api&action=getautoswitchingandprofitsstatistics";
+            string r1 = GetNiceHashAPIData(url, worker);
+            if (r1 == null) return null;
+            r1 = r1.Replace("return", "result");
+
+            mph_json nhjson_current;
+            try {
+                nhjson_current = JsonConvert.DeserializeObject<mph_json>(r1, Globals.JsonSettings);
+                Dictionary<AlgorithmType, NiceHashSMA> ret = new Dictionary<AlgorithmType, NiceHashSMA>();
+                MPHSMA[] temp = nhjson_current.result;
+                if (temp != null) {
+                    foreach (var sma in temp) {
+                        var type = sma.GetAlgoType();
+                        if (type != AlgorithmType.NONE) {
+                            var nhdata = new NiceHashSMA();
+                            nhdata.algo = (int)type;
+                            nhdata.host = sma.host;
+                            nhdata.name = sma.algo;
+                            nhdata.paying = sma.profit;
+                            nhdata.port = sma.algo_switch_port;
+                            ret.Add(type, nhdata);
+                        }
+                    }
+                    return ret;
+                }
+                return null;
+            } catch {
                 return null;
             }
         }

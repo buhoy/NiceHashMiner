@@ -820,7 +820,7 @@ namespace NiceHashMiner
                 } else {
                     return StartMiningReturnType.IgnoreMsg; ;
                 }
-            } else if (!VerifyMiningAddress(true)) return StartMiningReturnType.IgnoreMsg;
+            } //else if (!VerifyMiningAddress(true)) return StartMiningReturnType.IgnoreMsg;
 
             if (Globals.NiceHashData == null) {
                 if (showWarnings) {

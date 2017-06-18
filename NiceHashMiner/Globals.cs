@@ -26,6 +26,7 @@ namespace NiceHashMiner {
             if (Globals.NiceHashData != null && Globals.NiceHashData.ContainsKey(AlgorithmType)) {
                 string name = Globals.NiceHashData[AlgorithmType].name;
                 int n_port = Globals.NiceHashData[AlgorithmType].port;
+                string host = Globals.NiceHashData[AlgorithmType].host;
                 int ssl_port = 30000 + n_port;
 
                 // NHMConectionType.NONE
@@ -37,16 +38,26 @@ namespace NiceHashMiner {
                 if (NHMConectionType.STRATUM_TCP == ConectionType) {
                     prefix = "stratum+tcp://";
                 }
-                if (NHMConectionType.STRATUM_SSL == ConectionType) {
-                    prefix = "stratum+ssl://";
-                    port = ssl_port;
-                }
-
-                return prefix
-                        + name
-                        + "." + miningLocation
-                        + ".nicehash.com:"
+                if (host != null) {
+                    if (NHMConectionType.STRATUM_SSL == ConectionType) {
+                        prefix = "stratum+tcp://";
+                    }
+                    return prefix
+                        + host
+                        + ":"
                         + port;
+                } else {
+                    if (NHMConectionType.STRATUM_SSL == ConectionType) {
+                        prefix = "stratum+ssl://";
+                        port = ssl_port;
+                    }
+
+                    return prefix
+                            + name
+                            + "." + miningLocation
+                            + ".nicehash.com:"
+                            + port;
+                }
             }
             return "";
         }
