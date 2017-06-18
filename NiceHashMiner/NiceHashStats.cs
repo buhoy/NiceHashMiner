@@ -44,6 +44,9 @@ namespace NiceHashMiner
             if (algo == "Lyra2RE2") {
                 return AlgorithmType.Lyra2REv2;
             }
+            if (algo == "Cryptonight") {
+                return AlgorithmType.CryptoNight;
+            }
             if (Enum.IsDefined(typeof(AlgorithmType), algo)) {
                 return (AlgorithmType)Enum.Parse(typeof(AlgorithmType), algo);
             }
