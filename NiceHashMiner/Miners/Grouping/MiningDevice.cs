@@ -128,10 +128,16 @@ namespace NiceHashMiner.Miners.Grouping {
                 AlgorithmType secondaryKey = algo.SecondaryNiceHashID;
                 if (NiceHashData.ContainsKey(key)) {
                     algo.CurNhmSMADataVal = NiceHashData[key].paying;
-                    algo.CurrentProfit = algo.CurNhmSMADataVal * algo.AvaragedSpeed * 0.000000001;
+                    if (Globals.MPHData != null && Globals.MPHData.ContainsKey(key)) {
+                        algo.CurMPHDataVal = Globals.MPHData[key].paying;
+                    }
+                    algo.CurrentProfit = Math.Max(algo.CurNhmSMADataVal, algo.CurMPHDataVal) * algo.AvaragedSpeed * 0.000000001;
                     if (NiceHashData.ContainsKey(secondaryKey))  {
                         algo.SecondaryCurNhmSMADataVal = NiceHashData[secondaryKey].paying;
-                        algo.CurrentProfit += algo.SecondaryCurNhmSMADataVal * algo.SecondaryAveragedSpeed * 0.000000001;
+                        if (Globals.MPHData != null && Globals.MPHData.ContainsKey(secondaryKey)) {
+                            algo.SecondaryCurMPHDataVal = Globals.MPHData[secondaryKey].paying;
+                        }
+                        algo.CurrentProfit += Math.Max(algo.SecondaryCurNhmSMADataVal, algo.SecondaryCurMPHDataVal) * algo.SecondaryAveragedSpeed * 0.000000001;
                     }
                 } else {
                     algo.CurrentProfit = 0;

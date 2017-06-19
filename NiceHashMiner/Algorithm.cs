@@ -33,6 +33,8 @@ namespace NiceHashMiner {
         public double CurrentProfit = 0;
         public double CurNhmSMADataVal = 0;
         public double SecondaryCurNhmSMADataVal = 0;
+        public double CurMPHDataVal = 0;
+        public double SecondaryCurMPHDataVal = 0;
         
         public Algorithm(MinerBaseType minerBaseType, AlgorithmType niceHashID, string minerName, AlgorithmType secondaryNiceHashID=AlgorithmType.NONE) {
             NiceHashID = niceHashID;
