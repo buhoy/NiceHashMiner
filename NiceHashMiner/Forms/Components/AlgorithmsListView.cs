@@ -18,8 +18,11 @@ namespace NiceHashMiner.Forms.Components {
         private const int ENABLED   = 0;
         private const int ALGORITHM = 1;
         private const int SPEED     = 2;
-        private const int RATIO     = 3;
-        private const int RATE      = 4;
+        private const int SECONDARYSPEED = 3;
+        private const int MPHSPEED = 4;
+        private const int MPHSECONDARYSPEED = 5;
+        private const int RATIO     = 6;
+        private const int RATE      = 7;
 
         public interface IAlgorithmsListView {
             void SetCurrentlySelected(ListViewItem lvi, ComputeDevice computeDevice);
@@ -81,6 +84,9 @@ namespace NiceHashMiner.Forms.Components {
             listViewAlgorithms.Columns[ENABLED].Text = International.GetText("AlgorithmsListView_Enabled");
             listViewAlgorithms.Columns[ALGORITHM].Text = International.GetText("AlgorithmsListView_Algorithm");
             listViewAlgorithms.Columns[SPEED].Text = International.GetText("AlgorithmsListView_Speed");
+            listViewAlgorithms.Columns[SECONDARYSPEED].Text = "Speed (2nd)";
+            listViewAlgorithms.Columns[MPHSPEED].Text = "MPH Speed";
+            listViewAlgorithms.Columns[MPHSECONDARYSPEED].Text = "MPH Speed (2nd)";
             listViewAlgorithms.Columns[RATIO].Text = International.GetText("AlgorithmsListView_Ratio");
             listViewAlgorithms.Columns[RATE].Text = International.GetText("AlgorithmsListView_Rate");
         }
@@ -90,16 +96,38 @@ namespace NiceHashMiner.Forms.Components {
             listViewAlgorithms.BeginUpdate();
             listViewAlgorithms.Items.Clear();
             foreach (var alg in computeDevice.GetAlgorithmSettings()) {
-                ListViewItem lvi = new ListViewItem();
-                ListViewItem.ListViewSubItem sub = lvi.SubItems.Add(String.Format("{0} ({1})", alg.AlgorithmName, alg.MinerBaseTypeName));
+                if (alg.SecondaryNiceHashID == AlgorithmType.NONE) {
+                    ListViewItem lvi = new ListViewItem();
+                    ListViewItem.ListViewSubItem sub = lvi.SubItems.Add(String.Format("{0} ({1})", alg.AlgorithmName, alg.MinerBaseTypeName));
 
-                //sub.Tag = alg.Value;
-                lvi.SubItems.Add(alg.BenchmarkSpeedString());
-                lvi.SubItems.Add(alg.CurPayingRatio);
-                lvi.SubItems.Add(alg.CurPayingRate);
-                lvi.Tag = alg;
-                lvi.Checked = alg.Enabled;
-                listViewAlgorithms.Items.Add(lvi);
+                    //sub.Tag = alg.Value;
+                    lvi.SubItems.Add(alg.BenchmarkSpeedString());
+                    lvi.SubItems.Add("");
+                    lvi.SubItems.Add("");
+                    lvi.SubItems.Add("");
+                    lvi.SubItems.Add(alg.CurPayingRatio);
+                    lvi.SubItems.Add(alg.CurPayingRate);
+                    lvi.Tag = alg;
+                    lvi.Checked = alg.Enabled;
+                    listViewAlgorithms.Items.Add(lvi);
+                    if (alg.NiceHashID == AlgorithmType.DaggerHashimoto && alg.MinerBaseType == MinerBaseType.ClaymoreAMD) {
+                        // Organize secondary algos underneath
+                        foreach (var secAlg in computeDevice.GetAlgorithmSettings().FindAll((a) => a.SecondaryNiceHashID != AlgorithmType.NONE)) {
+                            ListViewItem seclvi = new ListViewItem();
+                            ListViewItem.ListViewSubItem secsub = seclvi.SubItems.Add(String.Format("  + {0}", secAlg.AlgorithmName));
+
+                            seclvi.SubItems.Add(secAlg.BenchmarkSpeedString());
+                            seclvi.SubItems.Add(secAlg.SecondaryBenchmarkSpeedString());
+                            seclvi.SubItems.Add("");
+                            seclvi.SubItems.Add("");
+                            seclvi.SubItems.Add(secAlg.SecondaryCurPayingRatio);
+                            seclvi.SubItems.Add(secAlg.CurPayingRate);
+                            seclvi.Tag = secAlg;
+                            seclvi.Checked = secAlg.Enabled;
+                            listViewAlgorithms.Items.Add(seclvi);
+                        }
+                    }
+                }
             }
             listViewAlgorithms.EndUpdate();
             this.Enabled = isEnabled;

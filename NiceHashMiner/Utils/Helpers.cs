@@ -136,7 +136,7 @@ namespace NiceHashMiner
             else
                 ret = (speed * 0.000000001).ToString("F3", CultureInfo.InvariantCulture) + separator + "G";
 
-            return ret;
+            return ret + "H/s";
         }
 
         public static string FormatDualSpeedOutput(double primarySpeed, double secondarySpeed=0) {

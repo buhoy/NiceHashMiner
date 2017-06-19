@@ -8,6 +8,7 @@ namespace NiceHashMiner {
     public class Algorithm {
 
         public readonly string AlgorithmName;
+        public readonly string SecondaryAlgorithmName;
         public readonly string MinerBaseTypeName;
         public readonly AlgorithmType NiceHashID;
         public readonly AlgorithmType SecondaryNiceHashID;
@@ -38,6 +39,7 @@ namespace NiceHashMiner {
             SecondaryNiceHashID = secondaryNiceHashID;
 
             this.AlgorithmName = AlgorithmNiceHashNames.GetName(DualNiceHashID());
+            this.SecondaryAlgorithmName = AlgorithmNiceHashNames.GetName(SecondaryNiceHashID);
             this.MinerBaseTypeName = Enum.GetName(typeof(MinerBaseType), minerBaseType);
             this.AlgorithmStringID = this.MinerBaseTypeName + "_" + this.AlgorithmName;
 
@@ -61,8 +63,14 @@ namespace NiceHashMiner {
                 if (Globals.NiceHashData != null) {
                     ratio = Globals.NiceHashData[NiceHashID].paying.ToString("F8");
                 }
-                if (SecondaryNiceHashID != AlgorithmType.NONE) {
-                    ratio += "/" + Globals.NiceHashData[SecondaryNiceHashID].paying.ToString("F8");
+                return ratio;
+            }
+        }
+        public string SecondaryCurPayingRatio {
+            get {
+                string ratio = International.GetText("BenchmarkRatioRateN_A");
+                if (Globals.NiceHashData != null) {
+                    ratio = Globals.NiceHashData[SecondaryNiceHashID].paying.ToString("F8");
                 }
                 return ratio;
             }
@@ -115,7 +123,18 @@ namespace NiceHashMiner {
             if (Enabled && IsBenchmarkPending && !string.IsNullOrEmpty(BenchmarkStatus)) {
                 return BenchmarkStatus;
             } else if (BenchmarkSpeed > 0) {
-                return Helpers.FormatDualSpeedOutput(BenchmarkSpeed, SecondaryBenchmarkSpeed);
+                return Helpers.FormatSpeedOutput(BenchmarkSpeed);
+            } else if (!IsPendingString() && !string.IsNullOrEmpty(BenchmarkStatus)) {
+                return BenchmarkStatus;
+            }
+            return International.GetText("BenchmarkSpeedStringNone");
+        }
+
+        public string SecondaryBenchmarkSpeedString() {
+            if (Enabled && IsBenchmarkPending && !string.IsNullOrEmpty(BenchmarkStatus)) {
+                return BenchmarkStatus;
+            } else if (BenchmarkSpeed > 0) {
+                return Helpers.FormatSpeedOutput(SecondaryBenchmarkSpeed);
             } else if (!IsPendingString() && !string.IsNullOrEmpty(BenchmarkStatus)) {
                 return BenchmarkStatus;
             }

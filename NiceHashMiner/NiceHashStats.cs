@@ -130,7 +130,7 @@ namespace NiceHashMiner
             var nhdata = GetNHMAlgorithmRates(worker);
             var mphdata = GetMPHAlgorithmRates(worker);
             foreach (var data in mphdata.Keys) {
-                nhdata[data] = mphdata[data];
+                //nhdata[data] = mphdata[data];
             }
             return nhdata;
         }
