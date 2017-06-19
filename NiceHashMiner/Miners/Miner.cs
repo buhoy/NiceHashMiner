@@ -27,12 +27,14 @@ namespace NiceHashMiner
         public AlgorithmType AlgorithmID;
         public AlgorithmType SecondaryAlgorithmID;
         public string AlgorithmName;
+        public string SecondaryAlgorithmName;
         public double Speed;
         public double SecondarySpeed;
         public APIData(AlgorithmType algorithmID, AlgorithmType secondaryAlgorithmID=AlgorithmType.NONE) {
             this.AlgorithmID = algorithmID;
             this.SecondaryAlgorithmID = secondaryAlgorithmID;
-            this.AlgorithmName = AlgorithmNiceHashNames.GetName(DualAlgorithmID());
+            this.AlgorithmName = AlgorithmNiceHashNames.GetName(AlgorithmID);
+            this.SecondaryAlgorithmName = AlgorithmNiceHashNames.GetName(SecondaryAlgorithmID);
             this.Speed = 0.0;
             this.SecondarySpeed = 0.0;
         }
