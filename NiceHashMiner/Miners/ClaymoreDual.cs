@@ -80,8 +80,9 @@ namespace NiceHashMiner.Miners {
                     }
                 }
             } else {
+                var secondaryUsername = GetUsername(Globals.GetMostProfitableAddress(SecondaryAlgorithmType), worker);
                 string urlSecond = Globals.GetLocationURL(SecondaryAlgorithmType, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], this.ConectionType);
-                dualModeParams = String.Format(" -dcoin {0} -dpool {1} -dwal {2} -dpsw x", SecondaryShortName(), urlSecond, username);
+                dualModeParams = String.Format(" -dcoin {0} -dpool {1} -dwal {2} -dpsw x", SecondaryShortName(), urlSecond, secondaryUsername);
             }
 
             return " "

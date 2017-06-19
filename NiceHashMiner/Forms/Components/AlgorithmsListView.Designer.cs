@@ -28,14 +28,12 @@
             this.columnHeader0 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SuspendLayout();
             // 
             // listViewAlgorithms
@@ -49,9 +47,7 @@
             this.columnHeader4,
             this.columnHeader5,
             this.columnHeader6,
-            this.columnHeader7,
-            this.columnHeader8,
-            this.columnHeader9});
+            this.columnHeader7});
             this.listViewAlgorithms.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listViewAlgorithms.FullRowSelect = true;
             this.listViewAlgorithms.GridLines = true;
@@ -81,22 +77,6 @@
             this.columnHeader2.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeader2.Width = 100;
             // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "Ratio BTC/GH/Day";
-            this.columnHeader6.Width = 110;
-            // 
-            // columnHeader7
-            // 
-            this.columnHeader7.Text = "BTC/Day";
-            this.columnHeader7.Width = 110;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Speed (2nd)";
@@ -105,25 +85,29 @@
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "MPH Speed";
-            this.columnHeader4.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader4.Width = 100;
+            this.columnHeader4.Text = "Ratio BTC/GH/Day";
+            this.columnHeader4.Width = 110;
             // 
             // columnHeader5
             // 
-            this.columnHeader5.Text = "MPH Speed (2nd)";
-            this.columnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.columnHeader5.Width = 100;
+            this.columnHeader5.Text = "BTC/Day";
+            this.columnHeader5.Width = 110;
             // 
-            // columnHeader8
+            // columnHeader6
             // 
-            this.columnHeader8.Text = "MPH Ratio BTC/GH/Day";
-            this.columnHeader8.Width = 133;
+            this.columnHeader6.Text = "MPH Ratio BTC/GH/Day";
+            this.columnHeader6.Width = 133;
             // 
-            // columnHeader9
+            // columnHeader7
             // 
-            this.columnHeader9.Text = "MPH BTC/Day";
-            this.columnHeader9.Width = 100;
+            this.columnHeader7.Text = "MPH BTC/Day";
+            this.columnHeader7.Width = 100;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // AlgorithmsListView
             // 
@@ -143,13 +127,11 @@
         private System.Windows.Forms.ColumnHeader columnHeader0;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
-        private System.Windows.Forms.ColumnHeader columnHeader7;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.ColumnHeader columnHeader8;
-        private System.Windows.Forms.ColumnHeader columnHeader9;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
     }
 }

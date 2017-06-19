@@ -574,17 +574,20 @@ namespace NiceHashMiner
             string worker = textBoxBTCAddress.Text.Trim() + "." + textBoxWorkerName.Text.Trim();
             Helpers.ConsolePrint("NICEHASH", "SMA get");
             Dictionary<AlgorithmType, NiceHashSMA> t = null;
+            Dictionary<AlgorithmType, NiceHashSMA> y = null;
 
             for (int i = 0; i < 5; i++) {
-                t = NiceHashStats.GetAlgorithmRates(worker);
-                if (t != null) {
+                t = NiceHashStats.GetNHAlgorithmRates(worker);
+                y = NiceHashStats.GetMPHAlgorithmRates(worker);
+                if (t != null && y != null) {
                     Globals.NiceHashData = t;
+                    Globals.MPHData = y;
                     break;
                 }
 
                 Helpers.ConsolePrint("NICEHASH", "SMA get failed .. retrying");
                 System.Threading.Thread.Sleep(1000);
-                t = NiceHashStats.GetAlgorithmRates(worker);
+                t = NiceHashStats.GetNHAlgorithmRates(worker);
             }
 
             if (t == null && Globals.NiceHashData == null && ShowWarningNiceHashData) {
@@ -897,6 +900,9 @@ namespace NiceHashMiner
             ClearRatesALL();
 
             var btcAdress = DemoMode ? Globals.DemoUser : textBoxBTCAddress.Text.Trim();
+            var mphAdress = DemoMode ? Globals.MPHDemoUser : textBoxMPHAddress.Text.Trim();
+            Globals.BTCAddress = btcAdress;
+            Globals.MPHAddress = mphAdress;
             var isMining = MinersManager.StartInitialize(this, Globals.MiningLocation[comboBoxLocation.SelectedIndex], textBoxWorkerName.Text.Trim(), btcAdress);
 
             if (!DemoMode) ConfigManager.GeneralConfigFileCommit();

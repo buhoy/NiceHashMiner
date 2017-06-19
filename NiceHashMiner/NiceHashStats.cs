@@ -21,6 +21,10 @@ namespace NiceHashMiner
         public int algo;
         public double paying;
         public string host;
+
+        public bool IsMPH() {
+            return (host != null);
+        }
     }
 
     public class MPHSMA
@@ -122,19 +126,8 @@ namespace NiceHashMiner
             public string version;
         }
 #pragma warning restore 649
-
-        public static Dictionary<AlgorithmType, NiceHashSMA> GetAlgorithmRates(string worker) {
-            if (worker.Length > 20) {
-                
-            }
-            var nhdata = GetNHMAlgorithmRates(worker);
-            var mphdata = GetMPHAlgorithmRates(worker);
-            foreach (var data in mphdata.Keys) {
-                //nhdata[data] = mphdata[data];
-            }
-            return nhdata;
-        }
-        public static Dictionary<AlgorithmType, NiceHashSMA> GetNHMAlgorithmRates(string worker) {
+        
+        public static Dictionary<AlgorithmType, NiceHashSMA> GetNHAlgorithmRates(string worker) {
             string r1 = GetNiceHashAPIData(Links.NHM_API_info, worker);
             if (r1 == null) return null;
 

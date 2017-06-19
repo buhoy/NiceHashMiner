@@ -397,7 +397,7 @@ namespace NiceHashMiner.Miners {
                 }
                 // start new miners
                 foreach (var toStart in toRunNewGroupMiners.Values) {
-                    toStart.Start(_miningLocation, _btcAdress, _worker);
+                    toStart.Start(_miningLocation, Globals.GetMostProfitableAddress(toStart.AlgorithmType), _worker);
                     _runningGroupMiners[toStart.Key] = toStart;
                 }
             }

@@ -59,20 +59,22 @@ namespace NiceHashMiner {
         public bool IsBenchmarkPending { get; private set; }
         public string CurPayingRatio {
             get {
-                string ratio = International.GetText("BenchmarkRatioRateN_A");
-                if (Globals.NiceHashData != null) {
-                    ratio = Globals.NiceHashData[NiceHashID].paying.ToString("F8");
-                }
-                return ratio;
+                return Ratio(NiceHashID);
             }
         }
         public string SecondaryCurPayingRatio {
             get {
-                string ratio = International.GetText("BenchmarkRatioRateN_A");
-                if (Globals.NiceHashData != null) {
-                    ratio = Globals.NiceHashData[SecondaryNiceHashID].paying.ToString("F8");
-                }
-                return ratio;
+                return Ratio(SecondaryNiceHashID);
+            }
+        }
+        public string MPHCurPayingRatio {
+            get {
+                return MPHRatio(NiceHashID);
+            }
+        }
+        public string MPHSecondaryCurPayingRatio {
+            get {
+                return MPHRatio(SecondaryNiceHashID);
             }
         }
         public string CurPayingRate {
@@ -90,6 +92,37 @@ namespace NiceHashMiner {
                 }
                 return rate;
             }
+        }
+        public string MPHCurPayingRate {
+            get {
+                string rate = International.GetText("BenchmarkRatioRateN_A");
+                var payingRate = 0.0d;
+                if (Globals.MPHData != null && Globals.MPHData.ContainsKey(NiceHashID)) {
+                    if (BenchmarkSpeed > 0) {
+                        payingRate += BenchmarkSpeed * Globals.MPHData[NiceHashID].paying * 0.000000001;
+                    }
+                    if (SecondaryBenchmarkSpeed > 0 && IsDual() && Globals.MPHData.ContainsKey(SecondaryNiceHashID)) {
+                        payingRate += SecondaryBenchmarkSpeed * Globals.MPHData[SecondaryNiceHashID].paying * 0.000000001;
+                    }
+                    rate = payingRate.ToString("F8");
+                }
+                return rate;
+            }
+        }
+
+        private string Ratio(AlgorithmType id) {
+            string ratio = International.GetText("BenchmarkRatioRateN_A");
+            if (Globals.NiceHashData != null) {
+                ratio = Globals.NiceHashData[id].paying.ToString("F8");
+            }
+            return ratio;
+        }
+        private string MPHRatio(AlgorithmType id) {
+            string ratio = International.GetText("BenchmarkRatioRateN_A");
+            if (Globals.MPHData != null && Globals.MPHData.ContainsKey(id)) {
+                ratio = Globals.MPHData[id].paying.ToString("F8");
+            }
+            return ratio;
         }
 
         public void SetBenchmarkPending() {

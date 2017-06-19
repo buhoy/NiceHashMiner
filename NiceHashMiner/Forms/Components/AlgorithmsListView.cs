@@ -85,8 +85,6 @@ namespace NiceHashMiner.Forms.Components {
             listViewAlgorithms.Columns[ALGORITHM].Text = International.GetText("AlgorithmsListView_Algorithm");
             listViewAlgorithms.Columns[SPEED].Text = International.GetText("AlgorithmsListView_Speed");
             listViewAlgorithms.Columns[SECONDARYSPEED].Text = "Speed (2nd)";
-            listViewAlgorithms.Columns[MPHSPEED].Text = "MPH Speed";
-            listViewAlgorithms.Columns[MPHSECONDARYSPEED].Text = "MPH Speed (2nd)";
             listViewAlgorithms.Columns[RATIO].Text = International.GetText("AlgorithmsListView_Ratio");
             listViewAlgorithms.Columns[RATE].Text = International.GetText("AlgorithmsListView_Rate");
         }
@@ -103,10 +101,10 @@ namespace NiceHashMiner.Forms.Components {
                     //sub.Tag = alg.Value;
                     lvi.SubItems.Add(alg.BenchmarkSpeedString());
                     lvi.SubItems.Add("");
-                    lvi.SubItems.Add("");
-                    lvi.SubItems.Add("");
                     lvi.SubItems.Add(alg.CurPayingRatio);
                     lvi.SubItems.Add(alg.CurPayingRate);
+                    lvi.SubItems.Add(alg.MPHCurPayingRatio);
+                    lvi.SubItems.Add(alg.MPHCurPayingRate);
                     lvi.Tag = alg;
                     lvi.Checked = alg.Enabled;
                     listViewAlgorithms.Items.Add(lvi);
@@ -118,10 +116,10 @@ namespace NiceHashMiner.Forms.Components {
 
                             seclvi.SubItems.Add(secAlg.BenchmarkSpeedString());
                             seclvi.SubItems.Add(secAlg.SecondaryBenchmarkSpeedString());
-                            seclvi.SubItems.Add("");
-                            seclvi.SubItems.Add("");
                             seclvi.SubItems.Add(secAlg.SecondaryCurPayingRatio);
                             seclvi.SubItems.Add(secAlg.CurPayingRate);
+                            seclvi.SubItems.Add(secAlg.MPHSecondaryCurPayingRatio);
+                            seclvi.SubItems.Add(secAlg.MPHCurPayingRate);
                             seclvi.Tag = secAlg;
                             seclvi.Checked = secAlg.Enabled;
                             listViewAlgorithms.Items.Add(seclvi);
