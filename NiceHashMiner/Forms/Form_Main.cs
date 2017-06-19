@@ -137,6 +137,7 @@ namespace NiceHashMiner
                 comboBoxLocation.SelectedIndex = 0;
 
             textBoxBTCAddress.Text = ConfigManager.GeneralConfig.BitcoinAddress;
+            textBoxMPHAddress.Text = ConfigManager.GeneralConfig.MPHAddress;
             textBoxWorkerName.Text = ConfigManager.GeneralConfig.WorkerName;
             ShowWarningNiceHashData = true;
             DemoMode = false;
@@ -807,7 +808,7 @@ namespace NiceHashMiner
         }
 
         private StartMiningReturnType StartMining(bool showWarnings) {
-            if (textBoxBTCAddress.Text.Equals("")) {
+            if (textBoxBTCAddress.Text.Equals("") || textBoxMPHAddress.Text.Equals("")) {
                 if (showWarnings) {
                     DialogResult result = MessageBox.Show(International.GetText("Form_Main_DemoModeMsg"),
                                                       International.GetText("Form_Main_DemoModeTitle"),
@@ -823,7 +824,7 @@ namespace NiceHashMiner
                 } else {
                     return StartMiningReturnType.IgnoreMsg; ;
                 }
-            } //else if (!VerifyMiningAddress(true)) return StartMiningReturnType.IgnoreMsg;
+            } else if (!VerifyMiningAddress(true)) return StartMiningReturnType.IgnoreMsg;
 
             if (Globals.NiceHashData == null) {
                 if (showWarnings) {
@@ -885,6 +886,7 @@ namespace NiceHashMiner
 
             textBoxBTCAddress.Enabled = false;
             textBoxWorkerName.Enabled = false;
+            textBoxMPHAddress.Enabled = false;
             comboBoxLocation.Enabled = false;
             buttonBenchmark.Enabled = false;
             buttonStartMining.Enabled = false;
@@ -894,6 +896,7 @@ namespace NiceHashMiner
 
             ConfigManager.GeneralConfig.BitcoinAddress = textBoxBTCAddress.Text.Trim();
             ConfigManager.GeneralConfig.WorkerName = textBoxWorkerName.Text.Trim();
+            ConfigManager.GeneralConfig.MPHAddress = textBoxMPHAddress.Text.Trim();
             ConfigManager.GeneralConfig.ServiceLocation = comboBoxLocation.SelectedIndex;
 
             InitFlowPanelStart();
@@ -922,6 +925,7 @@ namespace NiceHashMiner
 
             textBoxBTCAddress.Enabled = true;
             textBoxWorkerName.Enabled = true;
+            textBoxMPHAddress.Enabled = true;
             comboBoxLocation.Enabled = true;
             buttonBenchmark.Enabled = true;
             buttonStartMining.Enabled = true;

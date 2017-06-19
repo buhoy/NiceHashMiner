@@ -14,6 +14,7 @@ namespace NiceHashMiner.Configs.Data {
 
         public bool DebugConsole = false;
         public string BitcoinAddress = "";
+        public string MPHAddress = "";
         public string WorkerName = "worker1";
         public int ServiceLocation = 0;
         public bool AutoStartMining = false;
