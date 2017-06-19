@@ -10,7 +10,6 @@ using NiceHashMiner.Miners;
 using Newtonsoft.Json.Linq;
 
 
-
 namespace NiceHashMiner
 {
 #pragma warning disable 649
@@ -126,6 +125,9 @@ namespace NiceHashMiner
             public string version;
         }
 #pragma warning restore 649
+
+        const float NHFee = 0.02f;
+        const float MPHFee = 0.009f;
         
         public static Dictionary<AlgorithmType, NiceHashSMA> GetNHAlgorithmRates(string worker) {
             string r1 = GetNiceHashAPIData(Links.NHM_API_info, worker);
@@ -138,6 +140,7 @@ namespace NiceHashMiner
                 NiceHashSMA[] temp = nhjson_current.result.simplemultialgo;
                 if (temp != null) {
                     foreach (var sma in temp) {
+                        sma.paying *= (1 - NHFee); 
                         ret.Add((AlgorithmType)sma.algo, sma);
                     }
                     return ret;
@@ -167,7 +170,7 @@ namespace NiceHashMiner
                             nhdata.algo = (int)type;
                             nhdata.host = sma.host;
                             nhdata.name = sma.algo;
-                            nhdata.paying = sma.profit;
+                            nhdata.paying = (nhdata.algo == (int)AlgorithmType.Equihash) ? sma.profit : sma.profit * (1 - MPHFee);  // Equihash currently zero fee
                             nhdata.port = sma.algo_switch_port;
                             ret.Add(type, nhdata);
                         }
