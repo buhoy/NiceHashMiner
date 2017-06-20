@@ -25,7 +25,6 @@ using System.Timers;
 namespace NiceHashMiner
 {
     using NiceHashMiner.Miners.Grouping;
-    using NiceHashMiner.Net20_backport;
     using NiceHashMiner.Miners.Parsing;
     public partial class Form_Main : Form, Form_Loading.IAfterInitializationCaller, IMainFormRatesComunication
     {

@@ -3,7 +3,6 @@ using NiceHashMiner.Configs;
 using NiceHashMiner.Enums;
 using NiceHashMiner.Miners.Grouping;
 using NiceHashMiner.Miners.Parsing;
-using NiceHashMiner.Net20_backport;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -148,7 +147,7 @@ namespace NiceHashMiner.Miners {
             foreach (var mPair in MiningSetup.MiningPairs) {
                 ids.Add(mPair.Device.ID.ToString());
             }
-            deviceStringCommand += StringHelper.Join("", ids);
+            deviceStringCommand += String.Join("", ids);
 
             return deviceStringCommand + extraParams;
         }
