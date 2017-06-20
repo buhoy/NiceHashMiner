@@ -58,13 +58,14 @@ namespace NiceHashMiner.Miners
             Stop_cpu_ccminer_sgminer_nheqminer(willswitch);
         }
 
-        public override void Start(string url, string btcAdress, string worker)
+        public override void Start(string url, MiningPool pool, string worker)
         {
             if (!IsInit) {
                 Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
-            string username = GetUsername(btcAdress, worker);
+            Pool = pool;
+            string username = GetUsername(Address, worker);
             
             LastCommandLine = " --gpu-platform " + GPUPlatformNumber +
                               " -k " + MiningSetup.MinerName +
@@ -276,7 +277,7 @@ namespace NiceHashMiner.Miners
         // TODO _currentMinerReadStatus
         public override APIData GetSummary() {
             string resp;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, Pool);
 
             resp = GetAPIData(APIPort, "summary");
             if (resp == null) {

@@ -30,13 +30,17 @@ namespace NiceHashMiner
         public string SecondaryAlgorithmName;
         public double Speed;
         public double SecondarySpeed;
-        public APIData(AlgorithmType algorithmID, AlgorithmType secondaryAlgorithmID=AlgorithmType.NONE) {
+        public MiningPool Pool;
+        public MiningPool SecondaryPool;
+        public APIData(AlgorithmType algorithmID, MiningPool pool, AlgorithmType secondaryAlgorithmID=AlgorithmType.NONE, MiningPool secondaryPool=MiningPool.NONE) {
             this.AlgorithmID = algorithmID;
             this.SecondaryAlgorithmID = secondaryAlgorithmID;
             this.AlgorithmName = AlgorithmNiceHashNames.GetName(AlgorithmID);
             this.SecondaryAlgorithmName = AlgorithmNiceHashNames.GetName(SecondaryAlgorithmID);
             this.Speed = 0.0;
             this.SecondarySpeed = 0.0;
+            this.Pool = pool;
+            this.SecondaryPool = secondaryPool;
         }
         public AlgorithmType DualAlgorithmID() {
             if (AlgorithmID == AlgorithmType.DaggerHashimoto) {
@@ -93,6 +97,12 @@ namespace NiceHashMiner
         protected NiceHashProcess ProcessHandle;
         private MinerPID_Data _currentPidData;
         private List<MinerPID_Data> _allPidData = new List<MinerPID_Data>();
+        public MiningPool Pool = MiningPool.NONE;
+        protected string Address {
+            get {
+                return Globals.GetMostProfitableAddress(Pool);
+            }
+        }
 
         // Benchmark stuff
         public bool BenchmarkSignalQuit;
@@ -253,7 +263,7 @@ namespace NiceHashMiner
             _allPidData.RemoveAll( x => toRemovePidData.Contains(x));
         }
 
-        abstract public void Start(string url, string btcAdress, string worker);
+        abstract public void Start(string url, MiningPool pool, string worker);
 
         protected string GetUsername(string btcAdress, string worker) {
             if (worker.Length > 0) {
@@ -762,7 +772,7 @@ namespace NiceHashMiner
             string resp;
             // TODO aname
             string aname = null;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, Pool);
 
             string DataToSend = GetHttpRequestNHMAgentStrin("summary");
 

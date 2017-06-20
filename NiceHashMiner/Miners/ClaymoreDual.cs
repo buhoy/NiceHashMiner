@@ -80,7 +80,8 @@ namespace NiceHashMiner.Miners {
                     }
                 }
             } else {
-                var secondaryUsername = GetUsername(Globals.GetMostProfitableAddress(SecondaryAlgorithmType), worker);
+                SecondaryPool = Globals.GetMostProfitablePool(SecondaryAlgorithmType);
+                var secondaryUsername = GetUsername(Globals.GetMostProfitableAddress(SecondaryPool), worker);
                 string urlSecond = Globals.GetLocationURL(SecondaryAlgorithmType, Globals.MiningLocation[ConfigManager.GeneralConfig.ServiceLocation], this.ConectionType);
                 dualModeParams = String.Format(" -dcoin {0} -dpool {1} -dwal {2} -dpsw x", SecondaryShortName(), urlSecond, secondaryUsername);
             }
@@ -91,9 +92,10 @@ namespace NiceHashMiner.Miners {
                 + dualModeParams;
         }
 
-        public override void Start(string url, string btcAdress, string worker) {
-            string username = GetUsername(btcAdress, worker);
-            LastCommandLine = GetStartCommand(url, btcAdress, worker) + " -dbg -1";
+        public override void Start(string url, MiningPool pool, string worker) {
+            Pool = pool;
+            string username = GetUsername(Address, worker);
+            LastCommandLine = GetStartCommand(url, Address, worker) + " -dbg -1";
             ProcessHandle = _Start();
         }
 

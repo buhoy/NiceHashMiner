@@ -70,7 +70,7 @@ namespace NiceHashMiner.Miners {
 
         public override APIData GetSummary() {
             _currentMinerReadStatus = MinerAPIReadStatus.NONE;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, Pool);
 
             TcpClient client = null;
             JsonApiResponse resp = null;

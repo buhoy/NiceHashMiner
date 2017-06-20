@@ -397,7 +397,7 @@ namespace NiceHashMiner.Miners {
                 }
                 // start new miners
                 foreach (var toStart in toRunNewGroupMiners.Values) {
-                    toStart.Start(_miningLocation, Globals.GetMostProfitableAddress(toStart.AlgorithmType), _worker);
+                    toStart.Start(_miningLocation, Globals.GetMostProfitablePool(toStart.AlgorithmType), _worker);
                     _runningGroupMiners[toStart.Key] = toStart;
                 }
             }
@@ -429,15 +429,25 @@ namespace NiceHashMiner.Miners {
                     Helpers.ConsolePrint(m.MinerTAG(), "GetSummary returned null..");
                 }
                 // set rates
+                if (Globals.MPHData != null && AD != null) {
+                    if (AD.Pool == MiningPool.MiningPoolHub && Globals.MPHData.ContainsKey(AD.AlgorithmID)) {
+                        groupMiners.CurrentRate = Globals.MPHData[AD.AlgorithmID].paying * AD.Speed * 0.000000001;
+                    }
+                    if (AD.SecondaryPool == MiningPool.MiningPoolHub && Globals.MPHData.ContainsKey(AD.SecondaryAlgorithmID)) {
+                        groupMiners.CurrentRate += Globals.MPHData[AD.SecondaryAlgorithmID].paying * AD.SecondarySpeed * 0.000000001;
+                    }
+                }
                 if (NiceHashData != null && AD != null) {
-                    groupMiners.CurrentRate = NiceHashData[AD.AlgorithmID].paying * AD.Speed * 0.000000001;
-                    if (NiceHashData.ContainsKey(AD.SecondaryAlgorithmID)) {
+                    if (AD.Pool == MiningPool.NiceHash) {
+                        groupMiners.CurrentRate = NiceHashData[AD.AlgorithmID].paying * AD.Speed * 0.000000001;
+                    }
+                    if (NiceHashData.ContainsKey(AD.SecondaryAlgorithmID) && AD.SecondaryPool == MiningPool.NiceHash) {
                         groupMiners.CurrentRate += NiceHashData[AD.SecondaryAlgorithmID].paying * AD.SecondarySpeed * 0.000000001;
                     }
                 } else {
                     groupMiners.CurrentRate = 0;
                     // set empty
-                    AD = new APIData(groupMiners.AlgorithmType);
+                    AD = new APIData(groupMiners.AlgorithmType, m.Pool);
                 }
                 CurrentProfit += groupMiners.CurrentRate;
                 // Update GUI

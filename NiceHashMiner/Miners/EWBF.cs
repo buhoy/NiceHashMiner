@@ -41,8 +41,9 @@ namespace NiceHashMiner.Miners
             IsNeverHideMiningWindow = true;
         }
 
-        public override void Start(string url, string btcAdress, string worker) {
-            LastCommandLine = GetDevicesCommandString() + "--server " + url.Split(':')[0] + " --user " + btcAdress + "." + worker + " --pass x --port " + url.Split(':')[1] + " --api 0.0.0.0:" + APIPort;
+        public override void Start(string url, MiningPool pool, string worker) {
+            Pool = pool;
+            LastCommandLine = GetDevicesCommandString() + "--server " + url.Split(':')[0] + " --user " + Address + "." + worker + " --pass x --port " + url.Split(':')[1] + " --api 0.0.0.0:" + APIPort;
             ProcessHandle = _Start();
         }
 
@@ -95,7 +96,7 @@ namespace NiceHashMiner.Miners
 
         public override APIData GetSummary() {
             _currentMinerReadStatus = MinerAPIReadStatus.NONE;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, Pool);
 
             TcpClient client = null;
             JsonApiResponse resp = null;

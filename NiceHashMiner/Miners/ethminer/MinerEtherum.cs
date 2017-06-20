@@ -116,7 +116,7 @@ namespace NiceHashMiner.Miners {
         }
 
         public override APIData GetSummary() {
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, Pool);
 
             bool ismining;
             var getSpeedStatus = GetSpeed(out ismining, out ad.Speed);

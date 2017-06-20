@@ -62,17 +62,14 @@ namespace NiceHashMiner.Miners.Grouping {
             CurrentRate = 0;
         }
 
-        public void Start(string miningLocation, string btcAdress, string worker) {
+        public void Start(string miningLocation, MiningPool pool, string worker) {
             if(Miner.IsRunning) {
                 return;
             }
             // Wait before new start
             System.Threading.Thread.Sleep(ConfigManager.GeneralConfig.MinerRestartDelayMS);
-            if (Globals.NiceHashData[AlgorithmType].host != null) {
-                btcAdress = "pb7280";
-            }
             string locationURL = Globals.GetLocationURL(AlgorithmType, miningLocation, Miner.ConectionType);
-            Miner.Start(locationURL, btcAdress, worker);
+            Miner.Start(locationURL, pool, worker);
         }
     }
 }

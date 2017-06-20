@@ -228,7 +228,7 @@ namespace NiceHashMiner.Miners {
 
         public override APIData GetSummary() {
             string resp;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, Pool);
 
             string DataToSend = GetHttpRequestNHMAgentStrin("h");
 
@@ -261,12 +261,13 @@ namespace NiceHashMiner.Miners {
             return ad;
         }
 
-        public override void Start(string url, string btcAdress, string worker) {
+        public override void Start(string url, MiningPool pool, string worker) {
             if (!IsInit) {
                 Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
-            string username = GetUsername(btcAdress, worker);
+            Pool = pool;
+            string username = GetUsername(Address, worker);
             LastCommandLine = GetConfigFileName();
 
             prepareConfigFile(url, username);

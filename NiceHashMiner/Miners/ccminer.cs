@@ -31,13 +31,14 @@ namespace NiceHashMiner.Miners
             return 60 * 1000; // 1 minute max, whole waiting time 75seconds
         }
 
-        public override void Start(string url, string btcAdress, string worker)
+        public override void Start(string url, MiningPool pool, string worker)
         {
             if (!IsInit) {
                 Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
-            string username = GetUsername(btcAdress, worker);
+            Pool = pool;
+            string username = GetUsername(Address, worker);
 
             string algo = "";
             string apiBind = "";
@@ -169,7 +170,7 @@ namespace NiceHashMiner.Miners
                     }
                 }
 
-                APIData CryptoNightData = new APIData(MiningSetup.CurrentAlgorithmType);
+                APIData CryptoNightData = new APIData(MiningSetup.CurrentAlgorithmType, Pool);
                 CryptoNightData.Speed = totalSpeed;
                 _currentMinerReadStatus = MinerAPIReadStatus.GOT_READ;
                 // check if speed zero

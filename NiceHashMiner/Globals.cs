@@ -28,19 +28,14 @@ namespace NiceHashMiner {
 
         public static string GetLocationURL(AlgorithmType AlgorithmType, string miningLocation, NHMConectionType ConectionType) {
             if (Globals.NiceHashData != null && Globals.NiceHashData.ContainsKey(AlgorithmType)) {
-                double paying = Globals.NiceHashData[AlgorithmType].paying;
                 string prefix = "";
-                if (Globals.MPHData != null && Globals.MPHData.ContainsKey(AlgorithmType)) {
-                    if (Globals.MPHData[AlgorithmType].paying > paying) {
-                        paying = Globals.MPHData[AlgorithmType].paying;
-
-                        int mphport = Globals.MPHData[AlgorithmType].port;
-                        string host = Globals.MPHData[AlgorithmType].host;
-                        if (NHMConectionType.STRATUM_TCP == ConectionType || NHMConectionType.STRATUM_SSL == ConectionType) {
-                            prefix = "stratum+tcp://";
-                        }
-                        return prefix + host + ":" + mphport;
+                if (GetMostProfitablePool(AlgorithmType) == MiningPool.MiningPoolHub) {
+                    int mphport = Globals.MPHData[AlgorithmType].port;
+                    string host = Globals.MPHData[AlgorithmType].host;
+                    if (NHMConectionType.STRATUM_TCP == ConectionType || NHMConectionType.STRATUM_SSL == ConectionType) {
+                        prefix = "stratum+tcp://";
                     }
+                    return prefix + host + ":" + mphport;
                 }
                 string name = Globals.NiceHashData[AlgorithmType].name;
                 int n_port = Globals.NiceHashData[AlgorithmType].port;
@@ -69,16 +64,26 @@ namespace NiceHashMiner {
             return "";
         }
         public static string GetMostProfitableAddress(AlgorithmType AlgorithmType) {
+            var pool = GetMostProfitablePool(AlgorithmType);
+            return GetMostProfitableAddress(pool);
+        }
+        public static string GetMostProfitableAddress(MiningPool pool) {
+            if (pool == MiningPool.MiningPoolHub) {
+                return MPHAddress;
+            }
+            return BTCAddress;
+        }
+        public static MiningPool GetMostProfitablePool(AlgorithmType AlgorithmType) {
             double paying = 0;
             if (Globals.NiceHashData != null && Globals.NiceHashData.ContainsKey(AlgorithmType)) {
                 paying = Globals.NiceHashData[AlgorithmType].paying;
             }
             if (Globals.MPHData != null && Globals.MPHData.ContainsKey(AlgorithmType)) {
                 if (Globals.MPHData[AlgorithmType].paying > paying) {
-                    return MPHAddress;
+                    return MiningPool.MiningPoolHub;
                 }
             }
-            return BTCAddress;
+            return MiningPool.NiceHash;
         }
     }
 }

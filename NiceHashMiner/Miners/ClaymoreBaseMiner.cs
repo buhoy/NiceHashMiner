@@ -23,6 +23,7 @@ namespace NiceHashMiner.Miners {
         double secondary_benchmark_sum = 0.0d;
         protected readonly string LOOK_FOR_START;
         const string LOOK_FOR_END = "h/s";
+        protected MiningPool SecondaryPool = MiningPool.NONE;
 
         // only dagger change
         protected bool ignoreZero = false;
@@ -65,7 +66,7 @@ namespace NiceHashMiner.Miners {
 
         public override APIData GetSummary() {
             _currentMinerReadStatus = MinerAPIReadStatus.NONE;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, MiningSetup.CurrentSecondaryAlgorithmType);
+            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, Pool, MiningSetup.CurrentSecondaryAlgorithmType, SecondaryPool);
 
             TcpClient client = null;
             JsonApiResponse resp = null;

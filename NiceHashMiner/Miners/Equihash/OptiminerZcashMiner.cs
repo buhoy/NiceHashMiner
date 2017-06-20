@@ -41,8 +41,9 @@ namespace NiceHashMiner.Miners.Equihash {
         bool _skipAPICheck = true;
         int waitSeconds = 30;
 
-        public override void Start(string url, string btcAdress, string worker) {
-            string username = GetUsername(btcAdress, worker);
+        public override void Start(string url, MiningPool pool, string worker) {
+            Pool = pool;
+            string username = GetUsername(Address, worker);
             LastCommandLine = " " + GetDevicesCommandString() + " -m " + APIPort + " -s " + url + " -u " + username + " -p x";
             ProcessHandle = _Start();
 
@@ -74,7 +75,7 @@ namespace NiceHashMiner.Miners.Equihash {
 
         public override APIData GetSummary() {
             _currentMinerReadStatus = MinerAPIReadStatus.NONE;
-            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType);
+            APIData ad = new APIData(MiningSetup.CurrentAlgorithmType, Pool);
 
             if (_skipAPICheck == false) {
                 JsonApiResponse resp = null;

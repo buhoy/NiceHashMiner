@@ -495,6 +495,12 @@ namespace NiceHashMiner
             if (iAPIData.AlgorithmID == AlgorithmType.Equihash) {
                 speedString = speedString.Replace("H/s", "Sols/s");
             }
+            if (iAPIData.Pool == MiningPool.NiceHash || iAPIData.Pool == MiningPool.MiningPoolHub) {  // This should always hit
+                speedString += " on " + Enum.GetName(typeof(MiningPool), iAPIData.Pool);
+            }
+            if (iAPIData.Pool != iAPIData.SecondaryPool && (iAPIData.SecondaryPool == MiningPool.NiceHash || iAPIData.SecondaryPool == MiningPool.MiningPoolHub)) {
+                speedString += " | " + Enum.GetName(typeof(MiningPool), iAPIData.SecondaryPool);
+            }
             
             string rateBTCString = FormatPayingOutput(paying);
             string rateCurrencyString = ExchangeRateAPI.ConvertToActiveCurrency(paying * Globals.BitcoinUSDRate).ToString("F2", CultureInfo.InvariantCulture)

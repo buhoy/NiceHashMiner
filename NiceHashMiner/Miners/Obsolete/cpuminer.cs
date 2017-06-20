@@ -19,12 +19,13 @@ namespace NiceHashMiner.Miners {
             return 3600000; // 1hour
         }
 
-        public override void Start(string url, string btcAdress, string worker) {
+        public override void Start(string url, MiningPool pool, string worker) {
             if(!IsInit) {
                 Helpers.ConsolePrint(MinerTAG(), "MiningSetup is not initialized exiting Start()");
                 return;
             }
-            string username = GetUsername(btcAdress, worker);
+            Pool = pool;
+            string username = GetUsername(Address, worker);
 
             LastCommandLine = "--algo=" + MiningSetup.MinerName +
                               " --url=" + url +
